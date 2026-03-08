@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Nhập mật khẩu</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    background: linear-gradient(145deg, #ffe4f2 0%, #fad0e6 50%, #f9c8dc 100%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:sans-serif;
+    overflow:hidden;
+
+    /* hiệu ứng fade */
+    opacity:1;
+    transition:opacity 1s ease;
+}
+
+body.fade-out{
+    opacity:0;
+}
+
+/* KHUNG */
+.container{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    width:280px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    z-index:2;
+}
+
+/* AVATAR */
+.avatar{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #ff6b81;
+    margin-bottom:10px;
+}
+
+h2{
+    color:#ff4757;
+    margin:10px 0;
+}
+
+/* HIỂN THỊ PASS */
+#display{
+    width:100%;
+    height:40px;
+    font-size:20px;
+    text-align:center;
+    letter-spacing:8px;
+    border:none;
+    background:#f1f2f6;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+/* BÀN PHÍM */
+.keypad{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.keypad button{
+    height:50px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    background:#ff6b81;
+    color:white;
+    cursor:pointer;
+}
+
+.keypad button:active{
+    transform:scale(.95);
+}
+
+/* THÔNG BÁO */
+#msg{
+    margin-top:10px;
+    font-size:14px;
+    min-height:18px;
+}
+
+/* TIM RƠI */
+.heart{
+    position:fixed;
+    top:-20px;
+    font-size:18px;
+    animation:fall linear forwards;
+    z-index:1;
+}
+
+@keyframes fall{
+    to{
+        transform:translateY(110vh);
+        opacity:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <img src="anh4.jpeg" class="avatar">
+    <h2>💝Nhập mật khẩu💖</h2>
+
+    <input type="password" id="display" disabled>
+
+    <div class="keypad">
+        <button onclick="add(1)">1</button>
+        <button onclick="add(2)">2</button>
+        <button onclick="add(3)">3</button>
+        <button onclick="add(4)">4</button>
+        <button onclick="add(5)">5</button>
+        <button onclick="add(6)">6</button>
+        <button onclick="add(7)">7</button>
+        <button onclick="add(8)">8</button>
+        <button onclick="add(9)">9</button>
+        <button onclick="clearAll()">✖</button>
+        <button onclick="add(0)">0</button>
+        <button onclick="check()">✔</button>
+    </div>
+
+    <div id="msg"></div>
+</div>
+
+<script>
+let pass = "";
+const correct = "1907";
+
+/* TIM RƠI */
+setInterval(() => {
+    let h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "❤️";
+    h.style.left = Math.random()*100 + "vw";
+    h.style.animationDuration = 3 + Math.random()*3 + "s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+}, 300);
+
+/* NHẬP PASS */
+function add(num){
+    if(pass.length < 6){
+        pass += num;
+        display();
+    }
+}
+
+function display(){
+    document.getElementById("display").value = "*".repeat(pass.length);
+}
+
+/* XÓA */
+function clearAll(){
+    pass="";
+    document.getElementById("display").value="";
+    document.getElementById("msg").innerText="";
+}
+
+/* KIỂM TRA */
+function check(){
+    let msg=document.getElementById("msg");
+
+    if(pass===correct){
+        msg.style.color="green";
+        msg.innerText="đúng òi🥰-đang mở...";
+
+        /* hiệu ứng mờ dần */
+        document.body.classList.add("fade-out");
+
+        setTimeout(()=>{
+            window.location.href="testttt.html";
+        },500);
+    }else{
+        msg.style.color="red";
+        msg.innerText="❌ Sai òi";
+
+        setTimeout(()=>{
+            clearAll();
+        },1000);
+    }
+}
+</script>
+
+</body>
+</html>
